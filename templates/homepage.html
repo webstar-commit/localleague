@@ -1,0 +1,294 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+
+{% block css %}
+    <style>
+        .head {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            min-height: 500px;
+            background: linear-gradient(0deg, rgba(6, 0, 0, 0.1), rgba(6, 0, 0, 0.1)), url({% static 'website/images/111.jpeg' %}) no-repeat scroll;
+            display: flex;
+            background-size: cover;
+
+        }
+
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            color: #fff;
+            font-size: 70px;
+            transform: translate(-50%, -100%);
+        }
+
+        .Head {
+            text-align: center;
+
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <div class="head">
+        <div class="center">Local Football League</div>
+    </div>
+    <div class="upcoming">
+
+        <div class="Head">
+            <h1 style="color:#fff;padding-top:30px;">UPCOMING EVENTS</h1>
+            <hr style="width:60%;">
+             <img src="{% static 'website/images/pp1.png' %}"
+                 style="float:left;position:relative;width:400px;height:400px;margin-left:-10%;margin-top:-5%;">
+            <img src="{% static 'website/images/pp2.png' %}"
+                 style="float:right;position:relative;width:400px;height:400px;margin-right:-10%;margin-top:-5%;">
+        </div>
+        <div class="bg-text">
+
+            {% for event in events %}
+
+
+
+
+                <div class="col-md-4">
+                    <div class="media">
+                        <div class="media-body">
+                            <a class="" href="#"><span class="dateEl"><em>{{ event.starts_at|date:'d' }}</em>{{ event.starts_at|date:'M' }}</span></a>
+
+                            <h4 class="media-heading">
+                                <a href="{% url 'reports:leagues_summary' %}">{{ event.name }}</a>
+                            </h4>
+                            <div class="meta-data">
+                                <span class="longDate">{{ event.starts_at }}</span>
+                            </div>
+                            <p>
+                                {{ event.description }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+    <style>
+
+
+        .text {
+            padding: 2px 16px;
+            font-size: 20px;
+        }
+
+        img {
+            height: 250px;
+        }
+
+        .tab-content {
+            margin: 50px 0 20px 0;
+        }
+
+        .media > .pull-left {
+            margin-right: 29px;
+        }
+
+        .media .dateEl {
+            justify-content: center;
+            align-items: center;
+            display: inline-block;
+            text-align: center;
+            color: #437946;
+            font-size: 20px;
+            text-transform: uppercase;
+        }
+
+        .media .dateEl em {
+            text-align: center;
+            display: block;
+            color: #DE8A00;
+            font-size: 40px;
+            line-height: 1;
+            font-style: normal;
+        }
+
+        .media .media-heading a {
+            color: #ccc;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        .media p {
+            color: #aaa
+        }
+
+        .media .meta-data {
+        }
+
+        .media .longDate, .media .timeEl {
+            display: inline-block;
+            font-size: 14px;
+            line-height: 14px;
+            font-family: 'PT Sans Narrow', sans-serif;
+            color: #fff;
+            text-transform: uppercase;
+            min-height: 16px;
+        }
+
+        .media .longDate {
+            background: transparent url({% static 'website/images/ico-calendar.png' %}) no-repeat left top;
+            padding: 0 10px 0 0px;
+            border-right: 1px solid #eb5b4c;
+            margin-right: 3px;
+        }
+
+        #tab1.tab-pane .media .longDate {
+            border-right: none;
+        }
+
+        .blogPost--small {
+            color: #7c7b7b;
+        }
+
+        .blogPost--small .media > .pull-left {
+        }
+
+        .blogPost--small a {
+            color: #662d91;
+        }
+
+        .blogPost--small .date, .blogPost--small .dateEl2 {
+            display: block;
+            text-align: center;
+            color: #fff;
+            background: #662d91;
+            width: 113px;
+        }
+
+        .blogPost--small .date span, .blogPost--small .dateEl2 span {
+            display: inline-block;
+            font-size: 42px;
+            line-height: 1;
+            letter-spacing: 0em;
+            text-indent: -0.1em;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .blogPost--small .date small, .blogPost--small .dateEl2 small {
+            display: block;
+            font-size: 18px;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        .blogPost--small h4 {
+            font-size: 22px;
+            text-transform: uppercase;
+        }
+
+        .btn-default {
+            color: #fff;
+            font-size: 14px;
+            background-color: #662d91;
+            border-radius: 0px;
+        }
+
+        .bg-text {
+            justify-content: center;
+            text-align: center;
+            align-item: center;
+            display: flex;
+        }
+
+        .col-md-6 {
+            width: 400px;
+            margin: 30px;
+            text-align: center;
+            justify-content: center;
+            align-item: center;
+            display: flex;
+        }
+
+    </style>
+    <style>
+        .upcoming {
+            height: 350px;
+            text-align: center;
+            align-item: center;
+            background: #142E20;
+            position: relative;
+
+        }
+
+        .Title {
+            text-align: center;
+        }
+
+        .container {
+            text-align: center;
+            align-item: center;
+        }
+
+        .HSection {
+            justify-content: center;
+            text-align: left;
+            align-item: center;
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .HCard {
+            width: 40%;
+            background-color: #DBDCDB;
+            margin-bottom: 100px;
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+    </style>
+
+
+    <main role="main">
+
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Latest News</h1>
+
+            </div>
+        </section>
+
+        <div class="album py-5 bg-light">
+            <div class="container">
+
+                <div class="row">
+
+                    {% for item in news %}
+                        <div class="col-4">
+                            <div class="card mb-4 box-shadow">
+                                <img class="card-img-top"
+                                     src="{{ item.image.url }}"
+                                     alt="Card image cap">
+                                <div class="card-body">
+                                    <h4>{{ item.title }}</h4>
+                                    <p class="card-text">{{ item.body|truncatechars:100 }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <a href="{% url 'core:post_page' item.id %}"
+                                               class="btn btn-sm btn-outline-secondary">Read more</a>
+                                        </div>
+                                        <small class="text-muted">{{ item.modified_at|timesince }} ago</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+{% endblock %}

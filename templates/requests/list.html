@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+
+
+{% block content %}
+    <div class="container ">
+        <div class="jumbotron">
+            <h2>League join requests</h2>
+        </div>
+        {% for request in requests %}
+
+            <div class="row align-items-center mb-5 mt-5">
+                <div class="col pull-left">
+                    <div class="content alert alert-info">
+                        <div class="col-8">
+                            <p>You have been invited to participate on <b>{{ request.league.name }}</b> starts at <b>{{ request.league.starts_at }}</b>
+                                <br> <span class="text-muted">{{ request.league.description }}</span></p>
+                            {% if user.user_type == 'landlord' %}
+                                <p> <span>Between : </span> {{ request.match }} on {{ request.match.date }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-4">
+                            {% if user.user_type == 'sponsor' %}
+                                <a href="{% url 'league:sponsor_accept' request.id %}"
+                                   class="btn btn-success">Accept</a>
+                                <a href="{% url 'league:sponsor_reject' request.id %}" class="btn btn-danger">Reject</a>
+                            {% elif user.user_type == 'team_leader' %}
+                                <a href="{% url 'league:team_accept' request.id %}" class="btn btn-success">Accept</a>
+                                <a href="{% url 'league:team_reject' request.id %}" class="btn btn-danger">Reject</a>
+                            {% elif user.user_type == 'landlord' %}
+                                <a href="{% url 'league:landlord_accept' request.id %}" class="btn btn-success">Accept</a>
+                                <a href="{% url 'league:landlord_reject' request.id %}" class="btn btn-danger">Reject</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        {% empty %}
+
+            <p class="alert alert-danger">You don't have any join requests yet.</p>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

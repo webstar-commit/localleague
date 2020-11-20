@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+    <div class="container">
+        <div class="jumbotron">
+            <h2> {% if item %}
+                    Edit Field
+            {% else %}  Add new Field {% endif %} </h2>
+            <p>you can add your fields here!</p>
+        </div>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {{ form|crispy }}
+            {{ formset|crispy }}
+
+            <input type="submit" value='Save'>
+                                <a href="{% url 'fields:list' %}" class="btn btn-dark">Cancel</a>
+
+        </form>
+    </div>
+
+
+{% endblock %}

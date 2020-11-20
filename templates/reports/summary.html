@@ -1,0 +1,210 @@
+{% extends 'layout.html' %}
+
+
+{% block css %}
+
+    <style>
+        .project-tab {
+            padding: 10%;
+            margin-top: -8%;
+        }
+
+        .project-tab #tabs {
+            background: #007b5e;
+            color: #eee;
+        }
+
+        .project-tab #tabs h6.section-title {
+            color: #eee;
+        }
+
+        .project-tab #tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            color: #0062cc;
+            background-color: transparent;
+            border-color: transparent transparent #f3f3f3;
+            border-bottom: 3px solid !important;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .project-tab .nav-link {
+            border: 1px solid transparent;
+            border-top-left-radius: .25rem;
+            border-top-right-radius: .25rem;
+            color: #0062cc;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .project-tab .nav-link:hover {
+            border: none;
+        }
+
+        .project-tab thead {
+            background: #f3f3f3;
+            color: #333;
+        }
+
+        .project-tab a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<section id="tabs" class="project-tab">
+    <div class="container">
+        <div class="jumbotron">
+            <h2 class="text-center"> League Reports </h2>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <nav>
+                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
+                           href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">All Leagues</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
+                               href="#nav-profile" role="tab" aria-controls="nav-profile"
+                               aria-selected="false">Teams Summary</a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                         aria-labelledby="nav-home-tab">
+                        <table class="table" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>League Name</th>
+                                <th>Sponsor</th>
+                                <th>Team #1</th>
+                                <th>Team #2</th>
+                                <th>Team #3</th>
+                                <th>Team #4</th>
+                                <th>Winner</th>
+                                {% if request.user.is_superuser %}
+
+                                    <th>Actions</th>
+                                {% endif %}
+                            </tr>
+
+                            </thead>
+                            <tbody>
+                            {% for league in leagues %}
+                                <tr>
+                                    <td>{{ league.name }}</td>
+                                    <td>{{ league.sponsor.user }}</td>
+                                    {% for team in league.teams.all %}
+                                        <td>{{ team.name }}</td>
+                                    {% endfor %}
+                                    <td>{{ league.winner|default_if_none:'In progress' }}</td>
+                                    {% if request.user.is_superuser %}
+                                        <td><a href="{% url 'league:list_landlords' league.id %}"
+                                               class=" text-light btn btn-success btn-sm">Pay
+                                            Landlord(s)</a></td>
+                                    {% endif %}
+                                </tr>
+
+                            {% endfor %}
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+                             aria-labelledby="nav-profile-tab">
+                            <table class="table" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>No. of players</th>
+                                    <th>Wins</th>
+                                    <th>Points</th>
+                                    <th>Rank</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for team in teams.items %}
+                                    <tr>
+                                        <td>{{ team.0 }}</td>
+
+                                        <td>{{ team.1.number_of_members }}</td>
+                                        <td>{{ team.1.wins }}</td>
+                                        <td>{{ team.1.points }}</td>
+                                        <td>{{ forloop.counter }}</td>
+
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="tabs" class="project-tab">
+    <div class="container">
+        <div class="row">
+            <h2 class="text-center"> League Summary </h2>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {% for league in leagues_teams.items %}
+
+
+
+                    <nav>
+                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
+                               href="#nav-home" role="tab" aria-controls="nav-home"
+                               aria-selected="true">{{ league.0 }}</a>
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                             aria-labelledby="nav-home-tab">
+                            <table class="table" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Team Name</th>
+                                    <th>MP</th>
+                                    <th>W</th>
+                                    <th>D</th>
+                                    <th>L</th>
+                                    <th>Points</th>
+                                </tr>
+
+                                </thead>
+                                <tbody>
+                                {% for team in league.1.items %}
+                                    <tr>
+                                        <td>{{ team.1.team }}</td>
+                                        <td>{{ team.1.games_played }}</td>
+
+                                        <td>{{ team.1.wins }}</td>
+                                        <td>{{ team.1.draws }}</td>
+                                        <td>{{ team.1.losses }}</td>
+                                        <td>{{ team.1.points }}</td>
+                                    </tr>
+                                {% endfor %}
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted text-center">Empty</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
